@@ -8,7 +8,10 @@ class GptTestGenerator {
 
   GptTestGenerator({required this.token});
 
-  Future<void> generate({required String inputPath}) async {
+  Future<void> generate({
+    required String inputPath,
+    required String? maxTokens,
+  }) async {
     final inputFile = File(inputPath);
     final original = await inputFile.readAsString();
 
@@ -17,12 +20,12 @@ class GptTestGenerator {
         .replaceFirst(r'.dart', '_test.dart');
     final outputFile = File(outputPath);
 
-    final result = await _callApi(original);
+    final result = await _callApi(original, maxTokens);
 
     await outputFile.writeAsString(result);
   }
 
-  Future<String> _callApi(String original) async {
+  Future<String> _callApi(String original, String? maxTokens) async {
     final url = Uri.parse('https://api.openai.com/v1/completions');
     final prompt =
         'Please write a unit test of the following Dart code. No explanatory text is required as we would like to save your output as source code as is. Test cases should also include boundary conditions.\n\n$original';
@@ -30,7 +33,7 @@ class GptTestGenerator {
     final body = jsonEncode({
       "model": "text-davinci-003",
       "prompt": prompt,
-      "max_tokens": 1000,
+      "max_tokens": maxTokens ?? 1000,
     });
     final result = await http.post(
       url,
@@ -40,6 +43,12 @@ class GptTestGenerator {
       },
       body: body,
     );
+
+    if (result.statusCode >= 400) {
+      final errorResponse = jsonDecode(result.body);
+      print(errorResponse);
+      exit(1);
+    }
 
     final resultBody = jsonDecode(result.body);
     final choices = resultBody['choices'] as List<dynamic>?;
