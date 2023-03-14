@@ -1,39 +1,26 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+This tool generates test codes for Dart code, using OpenAI API.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+```
+$ dart pub add dev:gpt_test_gen
+```
+
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Just execute below command.
 
-```dart
-const like = 'sample';
+```
+$ dart run gpt_test_gen -t <token> -i <your_source_file_path>
 ```
 
-## Additional information
+`<token>` is your OpenAI API's secret.
+`<your_source_file_path>` is relative path of the source code for which you want the test code to be written.
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+## Reference
+
+This package is inspired in [XCTestGen](https://github.com/NakaokaRei/XCTestGen).
+
+OpenAI API: https://platform.openai.com/docs/introduction/overview.
