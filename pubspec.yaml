@@ -1,6 +1,6 @@
 name: gpt_test_gen
 description: Dart test code generator with GPT-3.
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/Kurogoma4D/gpt_test_gen
 
 environment:
